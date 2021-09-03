@@ -1,5 +1,20 @@
 from app.controllers.auth import *
 
+def get_limit(limit):
+  defaultLimit = 30
+  if limit is None:
+    limit = defaultLimit
+  else:
+    try:
+      limit = int(limit)
+
+      # limit must be between 5 and 100
+      if limit < 5 or limit > 100:
+        limit = defaultLimit
+    except ValueError:
+      limit = defaultLimit
+  return limit
+
 def get_info_from_username(username):
   """ Function that gets information regarding the user from username
 
@@ -63,7 +78,7 @@ def get_tweets_from_username(user, limit):
   if error:
     return info
 
-  tweets = get_tweets_from_id(info['id'], limit)
+  tweets = get_tweets_from_id(info['id'], get_limit(limit))
 
   response_dict = create_response_dict(info, tweets)
 
