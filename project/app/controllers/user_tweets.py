@@ -45,7 +45,7 @@ def get_tweets_from_id(id, limit):
 
 
 def create_response_dict(info, tweets):
-  response_dict = {'account': info, 'tweets': []}
+  response_dict = []
   
   # iterate through all tweets
   for data in tweets:
@@ -68,7 +68,7 @@ def create_response_dict(info, tweets):
     # add text to tweet dict
     tweet['text'] = data['text']
     
-    response_dict['tweets'].append(tweet)
+    response_dict.append( {'account': info, 'tweet': tweet} )
 
   return response_dict
 
