@@ -6,15 +6,21 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from app.controllers.user_tweets import get_tweets
+# import app.controllers.user_tweets as user_tweets
+
 
 def getLimit(limit):
   defaultLimit = 30
-  if limit == None:
+  if limit is None:
     limit = defaultLimit
   else:
     try:
       limit = int(limit)
+
+      # limit must be between 5 and 100
+      if limit < 5 or limit > 100:
+        limit = defaultLimit
     except ValueError:
       limit = defaultLimit
   return limit
@@ -31,4 +37,8 @@ class userTweetsList(APIView):
       
       limit = getLimit(request.GET.get('limit'))
 
-      return Response({'user': user, 'limit': limit})
+      response_dict = get_tweets(user, limit)
+
+      # print(response_dict)
+
+      return Response(response_dict)
