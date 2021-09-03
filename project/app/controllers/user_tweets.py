@@ -58,7 +58,7 @@ def create_response_dict(info, tweets):
   return response_dict
 
 
-def get_tweets(user, limit):  
+def get_tweets_from_username(user, limit):  
   info, error = get_info_from_username(user)
   if error:
     return info

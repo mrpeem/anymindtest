@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from app.controllers.user_tweets import get_tweets
+from app.controllers.user_tweets import get_tweets_from_username
 # import app.controllers.user_tweets as user_tweets
 
 
@@ -37,7 +37,7 @@ class userTweetsList(APIView):
       
       limit = getLimit(request.GET.get('limit'))
 
-      response_dict = get_tweets(user, limit)
+      response_dict = get_tweets_from_username(user, limit)
 
       # print(response_dict)
 
