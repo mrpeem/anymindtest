@@ -8,22 +8,29 @@ def get_limit(limit):
     try:
       limit = int(limit)
 
-      # limit must be between 5 and 100
+      # limit must be between 10 and 100
       if limit < 10 or limit > 100:
         limit = defaultLimit
     except ValueError:
       limit = defaultLimit
   return limit
 
+
+
+
 def get_and_parse_tweets(hashtag, limit):
   tweet_fields = "tweet.fields=author_id,created_at,entities,public_metrics,text"
   max_results = limit
   url = "https://api.twitter.com/2/tweets/search/recent?query=%23{}&{}&max_results={}".format(hashtag, tweet_fields, max_results)
   
-  json_response = connect_to_endpoint(url)
+  query_params = {'query': '#'+hashtag,'tweet.fields': 'author_id,created_at,entities,public_metrics,text', 'max_results': limit}
+  search_url = "https://api.twitter.com/2/tweets/search/recent"
+  
+  # json_response = connect_to_endpoint(url)
+  json_response = connect_to_endpoint(search_url, query_params)
 
   if json_response['meta']['result_count'] == 0:
-    return {'error': 'no Tweets found with that hashtag'}, str, True
+    return {'error': 'no Tweets found with the hashtag [{}]'.format(hashtag)}, str, True
   
 
   tweets = []
@@ -52,7 +59,7 @@ def get_and_parse_tweets(hashtag, limit):
 
 def get_account_info(ids):
   url = "https://api.twitter.com/2/users?ids={}".format(ids)
-  json_response = connect_to_endpoint(url)
+  json_response = connect_to_endpoint(url, None)
   
   return json_response['data']
 

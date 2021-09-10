@@ -28,7 +28,7 @@ def get_info_from_username(username):
   """
 
   url = "https://api.twitter.com/2/users/by/username/{}".format(username)
-  json_response = connect_to_endpoint(url)
+  json_response = connect_to_endpoint(url, None)
 
   if 'errors' in json_response:
     return {'error': json_response['errors'][0]['detail']}, True
@@ -40,7 +40,7 @@ def get_tweets_from_id(id, limit):
   tweet_fields = "tweet.fields=author_id,created_at,entities,public_metrics,text"
   max_results = limit
   url = "https://api.twitter.com/2/users/{}/tweets?{}&max_results={}".format(id, tweet_fields, max_results)
-  json_response = connect_to_endpoint(url)
+  json_response = connect_to_endpoint(url, None)
   return json_response['data']
 
 
